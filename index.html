@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Visual — By_MLP</title>
+
+  <!-- ======================================================
+       POLICES GOOGLE FONTS
+       Raleway = titres gras / Lato = corps de texte
+  ====================================================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <!-- ======================================================
+       FONT AWESOME — icônes réseaux sociaux & UI
+  ====================================================== -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* =====================================================
+       VARIABLES CSS — modifie ici les couleurs du site
+    ===================================================== */
+    :root {
+      --navy:      #0f2044;   /* bleu marine principal */
+      --navy-mid:  #1a3260;   /* marine intermédiaire */
+      --gold:      #b8a06a;   /* or/doré accent */
+      --gold-light:#d4bc88;
+      --white:     #ffffff;
+      --light-bg:  #f0f4f8;   /* fond gris très clair */
+      --text-dark: #1a2b3c;
+      --text-mid:  #455568;
+      --text-light:#8898aa;
+      --font-title:'Raleway', sans-serif;
+      --font-body: 'Lato', sans-serif;
+    }
+
+    /* =====================================================
+       RESET & BASE
+    ===================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text-dark);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* =====================================================
+       UTILITAIRES
+    ===================================================== */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: var(--font-title);
+      font-weight: 900;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+
+    /* =====================================================
+       HEADER / NAVIGATION
+    ===================================================== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--white);
+      box-shadow: 0 2px 16px rgba(15,32,68,.08);
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 5%;
+      gap: 16px;
+    }
+
+    /* --- LOGO ---
+         Remplace le contenu de .logo-img par une vraie balise <img>
+         ou un vrai SVG de ton logo.
+         Exemple : <img src="images/logo.png" alt="DVS logo" width="140">
+    --------------------------------------------------- */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .logo-icon img {
+  width: 100px;
+  height: auto;
+  display: block;
+}
+    .logo-icon svg { width: 100%; height: 100%; }
+    .logo-text {
+      font-family: var(--font-title);
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .logo-text .dvs  { font-size: 1.4rem; color: var(--navy); letter-spacing:.04em; }
+    .logo-text .sub  { font-size: .65rem; color: var(--text-mid); font-weight:600; letter-spacing:.1em; text-transform:uppercase; }
+
+    /* --- LIENS DE NAV --- */
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+    .nav-links a {
+      font-family: var(--font-title);
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--text-dark);
+      transition: color .2s;
+      letter-spacing: .03em;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* --- ACTIONS NAV --- */
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .nav-search {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--navy);
+      font-size: 1.1rem;
+      transition: color .2s;
+    }
+    .nav-search:hover { color: var(--gold); }
+
+    /* Bouton "Request Quote" — modifie le lien href ci-dessous */
+    .btn-quote {
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: .85rem;
+      padding: 10px 20px;
+      border-radius: 6px;
+      letter-spacing: .04em;
+      transition: background .25s, transform .2s;
+      white-space: nowrap;
+    }
+    .btn-quote:hover { background: var(--navy-mid); transform: translateY(-1px); }
+
+    /* --- BURGER MENU (mobile) --- */
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .burger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: all .3s;
+    }
+
+    /* =====================================================
+       HERO SECTION
+    ===================================================== */
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 0.8fr;
+      min-height: 340px;
+      overflow: hidden;
+      background: var(--light-bg);
+    }
+
+    /* Étincelles / étoiles décoratives (CSS pur) */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, var(--gold-light) 1px, transparent 1px),
+        radial-gradient(circle, var(--navy) 1.5px, transparent 1.5px);
+      background-size: 120px 120px, 200px 200px;
+      background-position: 0 0, 60px 60px;
+      opacity: .18;
+      pointer-events: none;
+    }
+
+    /* ----- COLONNE GAUCHE : illustration design -----
+       Remplace .hero-left-img par :
+         <img src="images/hero-left.png" alt="Design tools" />
+       Le fond de la colonne reste #eef1f6
+    ------------------------------------------------ */
+    .hero-left {
+      position: relative;
+      background: #e8edf4;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .hero-left-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* PLACEHOLDER STYLE — supprime ce bloc quand tu mets ta vraie image */
+      background: linear-gradient(135deg, #c5cfe0 0%, #9aaac2 50%, #7189aa 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,.5);
+      font-size: .75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-family: var(--font-title);
+      min-height: 340px;
+    }
+    /* SVG décoratif interne (plumes / formes géométriques) */
+    .hero-left-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: .9;
+    }
+
+    /* ----- COLONNE CENTRE : texte principal ----- */
+    .hero-center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 50px 5% 50px 6%;
+      z-index: 1;
+    }
+    .hero-center h1 {
+      font-family: var(--font-title);
+      font-weight: 900;
+      font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+      line-height: 1.15;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .hero-center p {
+      font-size: clamp(.85rem, 1.3vw, .95rem);
+      color: var(--text-mid);
+      line-height: 1.65;
+      max-width: 360px;
+      margin-bottom: 28px;
+    }
+    .hero-center p em {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    /* Bouton CTA "Discuss your project"
+       ➜ Modifie href pour pointer vers ton WhatsApp */
+    .btn-cta {
+      display: inline-block;
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--navy);
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: .8rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      border-radius: 4px;
+      width: fit-content;
+      position: relative;
+      overflow: hidden;
+      transition: color .3s;
+    }
+    .btn-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .3s ease;
+      z-index: -1;
+    }
+    .btn-cta:hover::before { transform: scaleX(1); }
+    .btn-cta:hover { color: var(--white); }
+
+    /* ----- COLONNE DROITE : illustration tech -----
+       Remplace .hero-right-img par :
+         <img src="images/hero-right.png" alt="Tech visual" />
+    ------------------------------------------------ */
+    .hero-right {
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-right-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* PLACEHOLDER — supprime quand tu mets ta vraie image */
+      min-height: 340px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Réseau / constellation CSS */
+    .hero-right-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* =====================================================
+       BANDE SÉPARATRICE
+    ===================================================== */
+    .divider {
+      height: 4px;
+      background: linear-gradient(to right, var(--light-bg), var(--gold), var(--navy), var(--gold), var(--light-bg));
+    }
+
+    /* =====================================================
+       SECTION SERVICES + PORTFOLIO (rangée 2 colonnes)
+    ===================================================== */
+    .main-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 260px;
+    }
+
+    /* ----- SERVICES ----- */
+    .services {
+      padding: 50px 6%;
+      background: var(--white);
+      border-right: 1px solid #e3e9f0;
+    }
+    .services .section-title { margin-bottom: 32px; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .service-card {
+      text-align: center;
+      padding: 10px 6px;
+    }
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 12px;
+      color: var(--navy);
+    }
+    .service-card h3 {
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: .9rem;
+      margin-bottom: 8px;
+      color: var(--navy);
+    }
+    .service-card p {
+      font-size: .78rem;
+      color: var(--text-light);
+      line-height: 1.55;
+    }
+
+    /* ----- PORTFOLIO ----- */
+    .portfolio {
+      padding: 50px 6%;
+      background: var(--white);
+    }
+    .portfolio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .portfolio-header .view-all {
+      font-family: var(--font-title);
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      transition: color .2s;
+    }
+    .portfolio-header .view-all:hover { color: var(--gold); }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      position: relative;
+    }
+    /* Chaque carte portfolio
+       ➜ Remplace le fond placeholder par :
+         <img src="images/portfolio-1.jpg" alt="Projet 1" />
+       dans chaque .portfolio-item
+    ------------------------------------------------ */
+    .portfolio-item {
+      border-radius: 6px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+      position: relative;
+      background: #c5cfe0; /* couleur placeholder */
+      transition: transform .3s;
+    }
+    .portfolio-item:hover { transform: scale(1.03); }
+    .portfolio-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .portfolio-item .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15,32,68,.55);
+      opacity: 0;
+      transition: opacity .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .portfolio-item:hover .overlay { opacity: 1; }
+    .overlay-icon {
+      color: var(--white);
+      font-size: 1.5rem;
+    }
+
+    /* Flèche suivante du carrousel portfolio */
+    .portfolio-next {
+      position: absolute;
+      right: -16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: .85rem;
+      transition: background .2s;
+      z-index: 2;
+    }
+    .portfolio-next:hover { background: var(--gold); }
+
+    /* =====================================================
+       SECTION À PROPOS (optionnelle — masquée par défaut)
+    ===================================================== */
+    /* Tu peux activer cette section en retirant display:none */
+    .about-section {
+      display: none; /* Retire ce display:none pour afficher */
+      padding: 80px 5%;
+      background: var(--light-bg);
+      text-align: center;
+    }
+
+    /* =====================================================
+       SECTION RÉSEAUX SOCIAUX
+    ===================================================== */
+    .social-section {
+      background: var(--navy);
+      padding: 40px 5%;
+      text-align: center;
+    }
+    .social-section h2 {
+      font-family: var(--font-title);
+      color: var(--white);
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: .05em;
+    }
+    .social-section p {
+      color: rgba(255,255,255,.55);
+      font-size: .85rem;
+      margin-bottom: 24px;
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    /* ========================================================
+       LIENS RÉSEAUX SOCIAUX — modifie les href ci-dessous !
+       TikTok   : https://www.tiktok.com/@TON_COMPTE
+       Instagram: https://www.instagram.com/TON_COMPTE
+       Facebook : https://www.facebook.com/TON_COMPTE
+       WhatsApp : https://wa.me/+237670789126 (ex: +237600000000)
+    ======================================================== */
+    .social-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      border-radius: 50px;
+      font-family: var(--font-title);
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      transition: transform .2s, filter .2s;
+      color: var(--white);
+    }
+    .social-btn:hover { transform: translateY(-3px); filter: brightness(1.15); }
+    .social-btn.tiktok    { background: #010101; }
+    .social-btn.instagram { background: linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4); }
+    .social-btn.facebook  { background: #1877f2; }
+    .social-btn.whatsapp  { background: #25d366; }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+    footer {
+      background: var(--white);
+      border-top: 1px solid #e3e9f0;
+      padding: 18px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: .8rem;
+      color: var(--text-mid);
+      font-family: var(--font-title);
+      font-weight: 600;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy {
+      font-size: .75rem;
+      color: var(--text-light);
+      text-align: right;
+    }
+
+    /* =====================================================
+       BARRE DE CONTACT RAPIDE (WhatsApp)
+    ===================================================== */
+    /* Bouton flottant WhatsApp — toujours visible */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      background: #25d366;
+      color: var(--white);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 6px 20px rgba(37,211,102,.45);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 28px rgba(37,211,102,.6);
+    }
+
+    /* =====================================================
+       RESPONSIVE — TABLETTE
+    ===================================================== */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr 1.3fr; }
+      .hero-right { display: none; }
+      .main-row { grid-template-columns: 1fr; }
+      .services { border-right: none; border-bottom: 1px solid #e3e9f0; }
+      .nav-links { display: none; }
+      .burger { display: flex; }
+    }
+
+    /* =====================================================
+       RESPONSIVE — MOBILE
+    ===================================================== */
+    @media (max-width: 600px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { display: none; }
+      .hero-center { padding: 40px 6%; }
+      .services-grid { grid-template-columns: 1fr; }
+      .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { flex-direction: column; text-align: center; }
+      .footer-copy { text-align: center; }
+    }
+
+    /* =====================================================
+       MENU MOBILE (togglé via JS)
+    ===================================================== */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--white);
+      padding: 16px 5%;
+      gap: 12px;
+      border-top: 1px solid #e3e9f0;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--navy);
+      padding: 6px 0;
+      border-bottom: 1px solid #f0f4f8;
+    }
+
+    /* =====================================================
+       ANIMATION D'ENTRÉE
+    ===================================================== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-center h1 { animation: fadeUp .7s ease both; }
+    .hero-center p  { animation: fadeUp .7s .15s ease both; }
+    .btn-cta         { animation: fadeUp .7s .3s ease both; }
+
+    /* =====================================================
+       LIGHTBOX PORTFOLIO
+    ===================================================== */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,20,40,.88);
+      z-index: 9998;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.active { display: flex; }
+   .lightbox-inner {
+  max-width: 92vw;
+  max-height: 90vh;
+  width: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-inner img {
+  border-radius: 8px;
+  max-width: 92vw;
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+    .lightbox-close {
+      position: absolute;
+      top: -16px;
+      right: -16px;
+      background: var(--gold);
+      color: var(--white);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========================================================
+     BOUTON FLOTTANT WHATSAPP
+     ➜ Remplace +237670789126 par ton numéro WhatsApp
+       ex: +237612345678  → https://wa.me/237612345678
+======================================================== -->
+<a href="https://wa.me/+237670789126"
+   class="whatsapp-float"
+   target="_blank"
+   rel="noopener"
+   aria-label="Nous contacter sur WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<!-- ========================================================
+     HEADER / NAVIGATION
+======================================================== -->
+<header>
+  <nav>
+    <!-- -------- LOGO --------
+         Option A (recommandée) : remplace le SVG ci-dessous par ton image logo
+           <img src="images/logo.png" alt="Digital Visual By MLP" width="140" />
+         Option B : garde le SVG stylisé ci-dessous
+    ------------------------------------------- -->
+  <div class="logo-icon">
+
+       <img src="images/logo DVS.png" alt="Digital Visual By MLP" width="140" />
+        
+
+      </div>
+
+      </div>
+      <div class="logo-text">
+        <div class="dvs">DIGITAL VISUAL STUDIO</div>
+        <div class="sub">— By_MLP</div>
+      </div>
+    </a>
+
+    <!-- -------- LIENS NAVIGATION -------- -->
+    <ul class="nav-links">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <!-- -------- ACTIONS -------- -->
+    <div class="nav-actions">
+      <button class="nav-search" aria-label="Rechercher">
+        <i class="fas fa-search"></i>
+      </button>
+      <!-- Bouton Request Quote → redirige vers WhatsApp -->
+      <a href="https://wa.me/+237670789126?text=Bonjour%2C%20je%20souhaite%20demander%20un%20devis."
+         class="btn-quote"
+         target="_blank" rel="noopener">
+        Request Quote
+      </a>
+      <!-- Burger menu (mobile) -->
+      <button class="burger" id="burgerBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Menu mobile -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#hero"      onclick="closeMobile()">Home</a>
+    <a href="#services"  onclick="closeMobile()">Services</a>
+    <a href="#portfolio" onclick="closeMobile()">Portfolio</a>
+    <a href="#about"     onclick="closeMobile()">About</a>
+    <a href="#contact"   onclick="closeMobile()">Contact</a>
+    <a href="https://wa.me/+237670789126?text=Bonjour%2C%20je%20voudrais%20un%20devis."
+       target="_blank" rel="noopener" style="color:var(--gold)">
+      <i class="fa-brands fa-whatsapp"></i> Demander un devis
+    </a>
+  </div>
+</header>
+
+<!-- ========================================================
+     HERO SECTION
+======================================================== -->
+<section class="hero" id="hero">
+
+  <!-- COLONNE GAUCHE — illustration outils de design
+       ➜ Pour mettre ta propre image :
+         1. Supprime la balise <div class="hero-left-img"> et son contenu
+         2. Ajoute : <img src="images/hero-gauche.png" alt="Design" class="hero-left-img" />
+         L'image doit faire environ 500×350 px et couvrir toute la zone.
+  ------------------------------------------- -->
+  <div class="hero-left">
+
+    <img
+
+      src="images/left1.png"
+
+      alt="Design créatif"
+
+      class="hero-left-img"
+
+    />
+
+  </div>
+
+  <!-- COLONNE CENTRE — texte & CTA -->
+  <div class="hero-center">
+    <h1>Votre marque mérite<br/>d'être vue.<br/>On s'en charge.</h1>
+<p>
+  Flyers, logos, photos, identité visuelle, pages web —
+  on transforme vos idées en créations qui <em>marquent les esprits.</em>
+</p>
+    <!-- CTA → WhatsApp -->
+    <a href="https://wa.me/+237670789126?text=Bonjour%2C%20je%20voudrais%20discuter%20de%20mon%20projet."
+       class="btn-cta"
+       target="_blank" rel="noopener">
+      Discuss Your Project
+    </a>
+  </div>
+
+  <!-- COLONNE DROITE — illustration tech / réseau
+       ➜ Pour mettre ta propre image :
+         1. Supprime le <canvas> et le <svg> placeholder
+         2. Ajoute : <img src="images/hero-droite.png" alt="Tech" style="width:100%;height:100%;object-fit:cover;" />
+         L'image doit avoir un fond sombre/marine pour s'intégrer.
+  ------------------------------------------- -->
+<div class="hero-right">
+    <img src="images/right.png" alt="Tech"
+         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" />
+    <div style="position:absolute;inset:0;z-index:1;"></div>
+    <canvas class="hero-right-canvas" id="networkCanvas" style="z-index:2;"></canvas>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========================================================
+     SERVICES + PORTFOLIO
+======================================================== -->
+<div class="main-row">
+
+  <!-- -------- SERVICES -------- -->
+  <section class="services" id="services">
+    <h2 class="section-title">Services</h2>
+    <div class="services-grid">
+
+      <!-- SERVICE 1 : Web Design -->
+      <div class="service-card">
+        <div class="service-icon">
+          <!-- Icône moniteur SVG -->
+          <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="6" width="44" height="32" rx="3" stroke="currentColor" stroke-width="2.5"/>
+            <path d="M18 46 h16 M26 38 v8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M14 18 l6 6 10-12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Web Design</h3>
+        <p>From website design and development, we optimize and modernize your web presence.</p>
+      </div>
+
+      <!-- SERVICE 2 : Graphic Design -->
+      <div class="service-card">
+        <div class="service-icon">
+          <!-- Icône plume SVG -->
+          <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M38 8 Q46 4 44 16 L20 40 L10 42 L12 32 Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+            <line x1="20" y1="40" x2="10" y2="42" stroke="currentColor" stroke-width="2"/>
+            <path d="M30 16 L36 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Graphic Design</h3>
+        <p>Graphic design, logos, illustrations, marketing materials and brand identity.</p>
+      </div>
+
+      <!-- SERVICE 3 : Marketing -->
+      <div class="service-card">
+        <div class="service-icon">
+          <!-- Icône mégaphone SVG -->
+          <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 20 L10 32 L18 32 L34 42 L34 10 L18 20 Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M38 18 Q44 26 38 34" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <line x1="10" y1="26" x2="18" y2="26" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Marketing</h3>
+        <p>Custom digital marketing, branding strategy and social media campaigns.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- -------- PORTFOLIO -------- -->
+  <section class="portfolio" id="portfolio">
+    <div class="portfolio-header">
+      <h2 class="section-title">Our Portfolio</h2>
+      <a href="#portfolio" class="view-all">View All</a>
+    </div>
+
+    <div class="portfolio-grid">
+      <!-- ================================================
+           IMAGES PORTFOLIO
+           ➜ Remplace les <div class="portfolio-placeholder"> par :
+             <img src="images/portfolio-1.jpg" alt="Projet 1" />
+           dans chaque .portfolio-item
+           Taille recommandée : 400×300 px minimum
+      ================================================ -->
+
+      <!-- Item 1 -->
+      <div class="portfolio-item" onclick="openLightbox('images/portfolio/portfolio-1.jpg')">
+        <img
+
+    src="images/portfolio/portfolio-1.jpg"
+
+    alt="Projet Flyer 1"
+
+  />
+        <div class="overlay"><i class="fas fa-expand overlay-icon"></i></div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="portfolio-item" onclick="openLightbox('images/portfolio/portfolio-2.png')">
+       <img
+
+    src="images/portfolio/portfolio-2.png"
+
+    alt="Projet Logo 2"
+
+  /> <div class="overlay"><i class="fas fa-expand overlay-icon"></i></div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="portfolio-item" onclick="openLightbox('images/portfolio/portfolio-3.png')">
+        <img src="images/portfolio/portfolio-3.png" alt="Projet 3" />
+        <div class="overlay"><i class="fas fa-expand overlay-icon"></i></div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="portfolio-item" onclick="openLightbox('images/portfolio/portfolio-4.png')">
+        <img src="images/portfolio/portfolio-4.png" alt="Projet 4" />
+        <div class="overlay"><i class="fas fa-expand overlay-icon"></i></div>
+      </div>
+
+u      <!-- Bouton "suivant" du carrousel -->
+      <button class="portfolio-next" onclick="scrollPortfolio()" aria-label="Suivant">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ========================================================
+     SECTION RÉSEAUX SOCIAUX
+     ➜ Renseigne tes liens ci-dessous (4 liens à modifier)
+======================================================== -->
+<section class="social-section" id="contact">
+  <h2>Retrouve-nous sur les réseaux</h2>
+  <p>Suis nos créations, commande tes projets ou contacte-nous directement.</p>
+
+  <div class="social-links">
+
+    <!-- TikTok — remplace TON_COMPTE_TIKTOK -->
+    <a href="https://www.tiktok.com/@mon_avis_tech"
+       class="social-btn tiktok"
+       target="_blank" rel="noopener">
+      <i class="fa-brands fa-tiktok"></i> TikTok
+    </a>
+
+    <!-- Instagram — remplace TON_COMPTE_INSTAGRAM -->
+    <a href="https://www.instagram.com/capture_by_mlp"
+       class="social-btn instagram"
+       target="_blank" rel="noopener">
+      <i class="fa-brands fa-instagram"></i> Instagram
+    </a>
+
+    <!-- Facebook — remplace TON_COMPTE_FACEBOOK -->
+    <a href="https://www.facebook.com/TON_COMPTE_FACEBOOK"
+       class="social-btn facebook"
+       target="_blank" rel="noopener">
+      <i class="fa-brands fa-facebook-f"></i> Facebook
+    </a>
+
+    <!-- WhatsApp — remplace +237670789126 (format international sans +) -->
+    <a href="https://wa.me/+237670789126?text=Bonjour%2C%20je%20souhaite%20passer%20une%20commande."
+       class="social-btn whatsapp"
+       target="_blank" rel="noopener">
+      <i class="fa-brands fa-whatsapp"></i> Commander via WhatsApp
+    </a>
+
+  </div>
+</section>
+
+<!-- ========================================================
+     FOOTER
+======================================================== -->
+<footer id="about">
+  <div class="footer-links">
+    <a href="#hero">Site</a>
+    <a href="#">Links</a>
+    <a href="#contact">Contact Info</a>
+    <a href="#contact">Contact</a>
+    <!-- Remplace le numéro ci-dessous par le tien -->
+    <a href="tel:+237696207716">+237 696 207 716</a>
+  </div>
+  <p class="footer-copy">© DIGITAL VISUAL STUDIO. Design By_MLP.</p>
+</footer>
+
+<!-- ========================================================
+     LIGHTBOX PORTFOLIO
+======================================================== -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-inner" onclick="event.stopPropagation()">
+    <button class="lightbox-close" onclick="closeLightbox()">
+      <i class="fas fa-times"></i>
+    </button>
+    <img id="lightboxImg" src="" alt="Portfolio" />
+  </div>
+</div>
+
+<!-- ========================================================
+     JAVASCRIPT
+======================================================== -->
+<script>
+  /* -------------------------------------------------------
+     1. MENU BURGER (mobile)
+  ------------------------------------------------------- */
+  const burgerBtn   = document.getElementById('burgerBtn');
+  const mobileMenu  = document.getElementById('mobileMenu');
+
+  burgerBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+
+  function closeMobile() {
+    mobileMenu.classList.remove('open');
+  }
+
+  /* -------------------------------------------------------
+     2. CANVAS CONSTELLATION (colonne droite du hero)
+        Dessine un réseau de points animés sur fond marine
+  ------------------------------------------------------- */
+  const canvas = document.getElementById('networkCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let W, H, nodes = [];
+
+    function resize() {
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', () => { resize(); initNodes(); });
+
+    function initNodes() {
+      nodes = Array.from({ length: 28 }, () => ({
+        x:  Math.random() * W,
+        y:  Math.random() * H,
+        vx: (Math.random() - .5) * .35,
+        vy: (Math.random() - .5) * .35,
+        r:  Math.random() * 2.5 + 1
+      }));
+    }
+    initNodes();
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      // Connexions
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const d  = Math.sqrt(dx*dx + dy*dy);
+          if (d < 100) {
+            ctx.strokeStyle = `rgba(184,160,106,${1 - d/100})`;
+            ctx.lineWidth = .6;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      // Points
+      nodes.forEach(n => {
+        ctx.fillStyle = 'rgba(255,255,255,.75)';
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > W) n.vx *= -1;
+        if (n.y < 0 || n.y > H) n.vy *= -1;
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  /* -------------------------------------------------------
+     3. LIGHTBOX PORTFOLIO
+  ------------------------------------------------------- */
+  function openLightbox(src) {
+  const lb  = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  if (!src) return;
+  img.src = src;
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  /* -------------------------------------------------------
+     4. SCROLL PORTFOLIO (mini carrousel)
+  ------------------------------------------------------- */
+  function scrollPortfolio() {
+    const grid = document.querySelector('.portfolio-grid');
+    grid.scrollBy({ left: 200, behavior: 'smooth' });
+  }
+
+  /* -------------------------------------------------------
+     5. STICKY HEADER : ombre renforcée au scroll
+  ------------------------------------------------------- */
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    header.style.boxShadow = window.scrollY > 10
+      ? '0 4px 24px rgba(15,32,68,.14)'
+      : '0 2px 16px rgba(15,32,68,.08)';
+  });
+</script>
+
+</body>
+</html>
