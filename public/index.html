@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Visual Studio — By_MLP | Design graphique, web & marketing</title>
+  <meta name="description" content="Digital Visual Studio (By_MLP) : flyers, logos, identité visuelle, sites web et marketing digital. Nous transformons vos idées en créations qui marquent les esprits." />
+
+  <!-- Polices : Raleway (titres) / Lato (texte) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome : icônes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/png" href="images/logo2.png" />
+</head>
+<body>
+
+<!-- Bouton flottant WhatsApp -->
+<a href="https://wa.me/237670789126?text=Bonjour%2C%20je%20souhaite%20discuter%20d%27un%20projet."
+   class="whatsapp-float" target="_blank" rel="noopener" aria-label="Nous contacter sur WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<!-- ============ HEADER ============ -->
+<header id="siteHeader">
+  <nav>
+    <a href="#accueil" class="logo">
+      <img src="images/logo2.png" alt="Logo Digital Visual Studio" />
+      <span class="logo-text">
+        <span class="dvs">DIGITAL VISUAL STUDIO</span><br />
+        <span class="sub">— By_MLP</span>
+      </span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#accueil">Accueil</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Réalisations</a></li>
+      <li><a href="#apropos">À propos</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="https://wa.me/237670789126?text=Bonjour%2C%20je%20souhaite%20demander%20un%20devis."
+         class="btn-quote" target="_blank" rel="noopener">Demander un devis</a>
+      <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#accueil">Accueil</a>
+    <a href="#services">Services</a>
+    <a href="#portfolio">Réalisations</a>
+    <a href="#apropos">À propos</a>
+    <a href="#contact">Contact</a>
+    <a href="https://wa.me/237670789126?text=Bonjour%2C%20je%20voudrais%20un%20devis."
+       target="_blank" rel="noopener" style="color:var(--gold)">
+      <i class="fa-brands fa-whatsapp"></i> Demander un devis
+    </a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="accueil">
+  <div class="hero-left">
+    <img src="images/left1.png" alt="Créations graphiques Digital Visual Studio" />
+  </div>
+
+  <div class="hero-center">
+    <h1>Votre marque mérite<br />d'être <span class="accent">vue</span>.<br />On s'en charge.</h1>
+    <p>
+      Flyers, logos, photos, identité visuelle, sites web —
+      nous transformons vos idées en créations qui <em>marquent les esprits.</em>
+    </p>
+    <div class="hero-cta">
+      <a href="https://wa.me/237670789126?text=Bonjour%2C%20je%20voudrais%20discuter%20de%20mon%20projet."
+         class="btn btn-outline" target="_blank" rel="noopener">Discuter de votre projet</a>
+      <a href="#portfolio" class="btn btn-primary">Voir nos réalisations</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <img src="images/right.png" alt="Univers digital" />
+    <canvas class="hero-right-canvas" id="networkCanvas"></canvas>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ CHIFFRES ============ -->
+<section class="stats">
+  <div class="stats-grid">
+    <div><div class="stat-value" data-count="50">0</div><div class="stat-label">Projets livrés</div></div>
+    <div><div class="stat-value" data-count="30">0</div><div class="stat-label">Clients satisfaits</div></div>
+    <div><div class="stat-value" data-count="3">0</div><div class="stat-label">Ans d'expérience</div></div>
+    <div><div class="stat-value" data-count="24">0</div><div class="stat-label">Livraison en heures</div></div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="section-head reveal">
+    <div class="section-eyebrow">Ce que nous faisons</div>
+    <h2 class="section-title">Nos services</h2>
+    <p class="section-sub">Des solutions créatives complètes pour donner vie à votre image de marque.</p>
+  </div>
+  <div class="services-grid" id="servicesGrid">
+    <!-- Rempli dynamiquement par js/main.js (API /api/services) -->
+  </div>
+</section>
+
+<!-- ============ PORTFOLIO ============ -->
+<section class="portfolio" id="portfolio">
+  <div class="section-head reveal">
+    <div class="section-eyebrow">Portfolio</div>
+    <h2 class="section-title">Nos réalisations</h2>
+    <p class="section-sub">Un aperçu de nos dernières créations : cliquez sur une image pour l'agrandir.</p>
+  </div>
+  <div class="portfolio-grid" id="portfolioGrid">
+    <!-- Rempli dynamiquement par js/main.js (API /api/projects) -->
+  </div>
+</section>
+
+<!-- ============ À PROPOS ============ -->
+<section class="about" id="apropos">
+  <div class="about-inner">
+    <div class="about-visual reveal">
+      <img src="images/leftF.png" alt="L'univers créatif de Digital Visual Studio" />
+    </div>
+    <div class="about-text reveal">
+      <div class="section-head">
+        <div class="section-eyebrow">Qui sommes-nous</div>
+        <h2 class="section-title">Un studio créatif à votre écoute</h2>
+      </div>
+      <p>
+        Digital Visual Studio (By_MLP) est un studio de création digitale basé au Cameroun.
+        Nous accompagnons entrepreneurs, commerces et particuliers dans la construction
+        d'une image de marque forte et mémorable.
+      </p>
+      <ul class="about-points">
+        <li><i class="fa-solid fa-circle-check"></i> Créations sur mesure, adaptées à votre budget</li>
+        <li><i class="fa-solid fa-circle-check"></i> Livraison rapide et révisions incluses</li>
+        <li><i class="fa-solid fa-circle-check"></i> Accompagnement de A à Z, du brief à la livraison</li>
+        <li><i class="fa-solid fa-circle-check"></i> Un interlocuteur unique, disponible sur WhatsApp</li>
+      </ul>
+      <a href="https://wa.me/237670789126?text=Bonjour%2C%20parlez-moi%20de%20vos%20services."
+         class="btn btn-gold" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> Parlons de votre projet
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESSUS ============ -->
+<section class="process">
+  <div class="section-head reveal">
+    <div class="section-eyebrow">Comment ça marche</div>
+    <h2 class="section-title">Notre méthode en 4 étapes</h2>
+  </div>
+  <div class="process-grid">
+    <div class="process-step reveal">
+      <div class="process-num">01</div>
+      <h3>Échange</h3>
+      <p>Vous nous décrivez votre besoin sur WhatsApp : objectifs, style, délais.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">02</div>
+      <h3>Proposition</h3>
+      <p>Nous vous envoyons un devis clair et un planning de réalisation.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">03</div>
+      <h3>Création</h3>
+      <p>Nous concevons votre projet et l'ajustons avec vos retours.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">04</div>
+      <h3>Livraison</h3>
+      <p>Vous recevez vos fichiers finaux dans tous les formats utiles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="section-head reveal">
+    <div class="section-eyebrow">Contact</div>
+    <h2 class="section-title">Retrouvez-nous sur les réseaux</h2>
+    <p class="section-sub">Suivez nos créations, commandez vos projets ou contactez-nous directement.</p>
+  </div>
+
+  <div class="social-links reveal">
+    <a href="https://www.tiktok.com/@mon_avis_tech" class="social-btn tiktok" target="_blank" rel="noopener">
+      <i class="fa-brands fa-tiktok"></i> TikTok
+    </a>
+    <a href="https://www.instagram.com/capture_by_mlp" class="social-btn instagram" target="_blank" rel="noopener">
+      <i class="fa-brands fa-instagram"></i> Instagram
+    </a>
+    <a href="https://www.facebook.com/TON_COMPTE_FACEBOOK" class="social-btn facebook" target="_blank" rel="noopener">
+      <i class="fa-brands fa-facebook-f"></i> Facebook
+    </a>
+    <a href="https://wa.me/237670789126?text=Bonjour%2C%20je%20souhaite%20passer%20une%20commande."
+       class="social-btn whatsapp" target="_blank" rel="noopener">
+      <i class="fa-brands fa-whatsapp"></i> Commander via WhatsApp
+    </a>
+  </div>
+
+  <p class="contact-phone">
+    <i class="fa-solid fa-phone"></i>
+    Téléphone : <a href="tel:+237696207716">+237 696 207 716</a>
+    &nbsp;·&nbsp;
+    <i class="fa-brands fa-whatsapp"></i>
+    WhatsApp : <a href="https://wa.me/237670789126" target="_blank" rel="noopener">+237 670 789 126</a>
+  </p>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo-text">
+        <span class="dvs">DIGITAL VISUAL STUDIO</span><br />
+        <span class="sub">— By_MLP</span>
+      </span>
+      <p>Studio de création digitale : design graphique, sites web et marketing.
+         Nous donnons à votre marque l'image qu'elle mérite.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Réalisations</a></li>
+        <li><a href="#apropos">À propos</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+237696207716"><i class="fa-solid fa-phone"></i> +237 696 207 716</a></li>
+        <li><a href="https://wa.me/237670789126" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> +237 670 789 126</a></li>
+        <li><a href="https://www.instagram.com/capture_by_mlp" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> @capture_by_mlp</a></li>
+        <li><a href="https://www.tiktok.com/@mon_avis_tech" target="_blank" rel="noopener"><i class="fa-brands fa-tiktok"></i> @mon_avis_tech</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© <span id="year"></span> DIGITAL VISUAL STUDIO — Design By_MLP. Tous droits réservés.</span>
+    <a href="admin/" class="admin-link"><i class="fa-solid fa-lock"></i> Espace admin</a>
+  </div>
+</footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Fermer">
+      <i class="fas fa-times"></i>
+    </button>
+    <img id="lightboxImg" src="" alt="Réalisation en grand format" />
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
