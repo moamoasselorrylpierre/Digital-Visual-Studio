@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Espace Admin — Digital Visual Studio</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="icon" type="image/png" href="../images/logo2.png" />
+</head>
+<body>
+
+<!-- ============ ÉCRAN DE CONNEXION ============ -->
+<div class="login-screen" id="loginScreen">
+  <form class="login-card" id="loginForm">
+    <img src="../images/logo2.png" alt="Logo DVS" class="login-logo" />
+    <h1>Espace Administrateur</h1>
+    <p>Digital Visual Studio — By_MLP</p>
+    <div class="field">
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" autocomplete="current-password" required placeholder="••••••••" />
+    </div>
+    <button type="submit" class="btn btn-primary" id="loginBtn">
+      <i class="fa-solid fa-lock-open"></i> Se connecter
+    </button>
+    <p class="login-error" id="loginError"></p>
+    <a href="../" class="back-link"><i class="fa-solid fa-arrow-left"></i> Retour au site</a>
+  </form>
+</div>
+
+<!-- ============ TABLEAU DE BORD ============ -->
+<div class="dashboard" id="dashboard" hidden>
+  <header class="admin-header">
+    <div class="admin-brand">
+      <img src="../images/logo2.png" alt="Logo DVS" />
+      <span>Admin — Digital Visual Studio</span>
+    </div>
+    <div class="admin-actions">
+      <a href="../" target="_blank" rel="noopener" class="btn btn-ghost">
+        <i class="fa-solid fa-eye"></i> Voir le site
+      </a>
+      <button class="btn btn-ghost" id="logoutBtn">
+        <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+      </button>
+    </div>
+  </header>
+
+  <nav class="admin-tabs">
+    <button class="tab active" data-tab="projects"><i class="fa-solid fa-images"></i> Réalisations</button>
+    <button class="tab" data-tab="services"><i class="fa-solid fa-briefcase"></i> Services</button>
+  </nav>
+
+  <main class="admin-main">
+
+    <!-- ===== ONGLET RÉALISATIONS ===== -->
+    <section class="tab-panel" id="panel-projects">
+      <div class="panel-card">
+        <h2><i class="fa-solid fa-plus"></i> Ajouter une réalisation</h2>
+        <form id="projectForm">
+          <div class="field">
+            <label for="projectImage">Image (JPG, PNG, WebP — compressée automatiquement)</label>
+            <input type="file" id="projectImage" accept="image/*" required />
+            <img id="projectPreview" class="upload-preview" hidden alt="Aperçu de l'image" />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="projectTitle">Titre *</label>
+              <input type="text" id="projectTitle" required placeholder="Ex : Logo boutique Belle Époque" />
+            </div>
+            <div class="field">
+              <label for="projectCategory">Catégorie</label>
+              <input type="text" id="projectCategory" list="categoryList" placeholder="Ex : Logo, Flyer, Site web…" />
+              <datalist id="categoryList">
+                <option value="Logo"></option>
+                <option value="Flyer"></option>
+                <option value="Identité visuelle"></option>
+                <option value="Site web"></option>
+                <option value="Photo"></option>
+                <option value="Marketing"></option>
+              </datalist>
+            </div>
+          </div>
+          <div class="field">
+            <label for="projectDescription">Description (optionnelle)</label>
+            <textarea id="projectDescription" rows="2" placeholder="Quelques mots sur ce projet…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" id="projectSubmit">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Publier la réalisation
+          </button>
+        </form>
+      </div>
+
+      <div class="panel-card">
+        <h2><i class="fa-solid fa-images"></i> Réalisations publiées</h2>
+        <div class="projects-grid" id="adminProjects">
+          <p class="loading">Chargement…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ONGLET SERVICES ===== -->
+    <section class="tab-panel" id="panel-services" hidden>
+      <div class="panel-card">
+        <h2 id="serviceFormTitle"><i class="fa-solid fa-plus"></i> Ajouter un service</h2>
+        <form id="serviceForm">
+          <input type="hidden" id="serviceId" value="" />
+          <div class="field-row">
+            <div class="field">
+              <label for="serviceTitle">Nom du service *</label>
+              <input type="text" id="serviceTitle" required placeholder="Ex : Photographie" />
+            </div>
+            <div class="field">
+              <label for="serviceIcon">Icône Font Awesome</label>
+              <input type="text" id="serviceIcon" placeholder="Ex : fa-solid fa-camera" />
+              <small>Trouvez une icône sur <a href="https://fontawesome.com/search?ic=free" target="_blank" rel="noopener">fontawesome.com</a> et collez sa classe (ex : <code>fa-solid fa-camera</code>).</small>
+            </div>
+          </div>
+          <div class="field">
+            <label for="serviceDescription">Description *</label>
+            <textarea id="serviceDescription" rows="3" required placeholder="Décrivez ce service en une ou deux phrases…"></textarea>
+          </div>
+          <div class="form-buttons">
+            <button type="submit" class="btn btn-primary" id="serviceSubmit">
+              <i class="fa-solid fa-floppy-disk"></i> Enregistrer le service
+            </button>
+            <button type="button" class="btn btn-ghost" id="serviceCancel" hidden>Annuler la modification</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel-card">
+        <h2><i class="fa-solid fa-briefcase"></i> Services en ligne</h2>
+        <div class="services-list" id="adminServices">
+          <p class="loading">Chargement…</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="../js/admin.js"></script>
+</body>
+</html>

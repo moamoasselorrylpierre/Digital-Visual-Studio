@@ -1,0 +1,43 @@
+{
+  // Configuration Cloudflare Workers — Digital Visual Studio
+  // Documentation : https://developers.cloudflare.com/workers/wrangler/configuration/
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "digital-visual-studio",
+  "main": "src/index.js",
+  "compatibility_date": "2026-07-01",
+
+  // Fichiers statiques du site (HTML / CSS / JS / images)
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    // Ces routes sont toujours traitées par le Worker (API + médias uploadés)
+    "run_worker_first": ["/api/*", "/media/*"]
+  },
+
+  // Base de données D1 : services + réalisations (portfolio)
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dvs-database",
+      "database_id": "da979065-22bb-4cdd-b843-97c2bf6fe58b"
+    }
+  ],
+
+  // Stockage KV : images uploadées depuis l'espace admin
+  "kv_namespaces": [
+    {
+      "binding": "MEDIA",
+      "id": "41340161ff1a4993839265eb07c0a8dc"
+    }
+  ],
+
+  "observability": {
+    "enabled": true
+  }
+
+  // ⚠️ SECRET À CONFIGURER (ne jamais le mettre dans ce fichier !) :
+  //   ADMIN_PASSWORD — mot de passe de l'espace administrateur
+  // En ligne de commande :  npx wrangler secret put ADMIN_PASSWORD
+  // Ou dans le dashboard : Workers & Pages → digital-visual-studio →
+  //   Settings → Variables and Secrets → Add → Type "Secret"
+}
