@@ -54,17 +54,28 @@ window.addEventListener('scroll', () => {
 /* ---------- Année du footer ---------- */
 document.getElementById('year').textContent = new Date().getFullYear();
 
+/* ---------- Chargement des données ----------
+   Essaie chaque source dans l'ordre et garde la première qui répond :
+   1. /api/…        → version Cloudflare Workers (espace admin)
+   2. data/…json    → version GitHub Pages (fichiers du dépôt)
+   3. contenu de secours codé en dur ci-dessus                    */
+async function fetchFirst(urls) {
+  for (const url of urls) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length) return data;
+      }
+    } catch (_) { /* source indisponible : on essaie la suivante */ }
+  }
+  return null;
+}
+
 /* ---------- Services (dynamique) ---------- */
 async function loadServices() {
   const grid = document.getElementById('servicesGrid');
-  let services = FALLBACK_SERVICES;
-  try {
-    const res = await fetch('/api/services');
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data) && data.length) services = data;
-    }
-  } catch (_) { /* API indisponible : contenu de secours */ }
+  const services = (await fetchFirst(['/api/services', 'data/services.json'])) || FALLBACK_SERVICES;
 
   grid.innerHTML = services
     .map(
@@ -82,14 +93,7 @@ async function loadServices() {
 /* ---------- Portfolio (dynamique) ---------- */
 async function loadProjects() {
   const grid = document.getElementById('portfolioGrid');
-  let projects = FALLBACK_PROJECTS;
-  try {
-    const res = await fetch('/api/projects');
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data) && data.length) projects = data;
-    }
-  } catch (_) { /* API indisponible : contenu de secours */ }
+  const projects = (await fetchFirst(['/api/projects', 'data/projects.json'])) || FALLBACK_PROJECTS;
 
   if (!projects.length) {
     grid.innerHTML = '<p class="portfolio-empty">De nouvelles réalisations arrivent bientôt — revenez vite !</p>';

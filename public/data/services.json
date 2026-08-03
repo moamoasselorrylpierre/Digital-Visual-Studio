@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Web Design",
+    "description": "Conception et développement de sites web modernes : nous optimisons et modernisons votre présence en ligne.",
+    "icon": "fa-solid fa-laptop-code"
+  },
+  {
+    "title": "Design Graphique",
+    "description": "Logos, illustrations, flyers, supports marketing et identité visuelle complète pour votre marque.",
+    "icon": "fa-solid fa-pen-nib"
+  },
+  {
+    "title": "Marketing Digital",
+    "description": "Stratégie de marque, campagnes sur les réseaux sociaux et marketing digital sur mesure.",
+    "icon": "fa-solid fa-bullhorn"
+  }
+]

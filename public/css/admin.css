@@ -77,6 +77,23 @@ code { background: var(--light-bg); padding: 1px 5px; border-radius: 4px; font-s
 .login-card > p { color: var(--text-light); font-size: .85rem; margin: 6px 0 26px; }
 .login-card .btn { width: 100%; justify-content: center; margin-top: 6px; }
 .login-error { color: var(--danger); font-size: .85rem; margin-top: 14px; min-height: 1.2em; }
+.static-notice {
+  display: flex;
+  gap: 12px;
+  text-align: left;
+  background: #fdf6e7;
+  border: 1px solid var(--gold-light);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  font-size: .85rem;
+  color: var(--text-dark);
+}
+.static-notice[hidden] { display: none; }
+.static-notice i { color: var(--gold); font-size: 1.1rem; margin-top: 2px; }
+.static-notice strong { font-family: var(--font-title); color: var(--navy); display: block; margin-bottom: 6px; }
+.static-notice p { margin: 6px 0; color: var(--text-mid); }
+.static-notice ol { margin: 8px 0 8px 18px; display: grid; gap: 6px; color: var(--text-mid); }
 .back-link { display: inline-block; margin-top: 18px; font-size: .82rem; color: var(--text-light); }
 .back-link:hover { color: var(--gold); }
 

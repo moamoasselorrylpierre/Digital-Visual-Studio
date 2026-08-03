@@ -14,10 +14,16 @@ const toast = document.getElementById('toast');
 async function checkSession() {
   try {
     const res = await fetch('/api/session');
+    if (!res.ok) throw new Error('api-indisponible');
     const data = await res.json();
     if (data.authenticated) showDashboard();
   } catch (_) {
-    showToast("Impossible de joindre le serveur. Le site est-il bien déployé sur Cloudflare ?", 'error');
+    // Pas de serveur API : hébergement statique (ex. GitHub Pages).
+    // On affiche le mode d'emploi à la place du formulaire de connexion.
+    const notice = document.getElementById('staticNotice');
+    if (notice) notice.hidden = false;
+    document.getElementById('loginForm').querySelectorAll('.field, button[type="submit"]')
+      .forEach((el) => (el.style.display = 'none'));
   }
 }
 

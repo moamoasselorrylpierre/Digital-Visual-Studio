@@ -1,90 +1,93 @@
 # Digital Visual Studio — By_MLP
 
-Site vitrine professionnel du studio **Digital Visual Studio**, déployé sur **Cloudflare Workers**, avec un **espace administrateur** pour publier les réalisations et gérer les services sans toucher au code.
+Site vitrine professionnel du studio **Digital Visual Studio** : design graphique, sites web et marketing digital.
 
-## 🌐 Aperçu
-
-- **Site public** : page d'accueil moderne (hero, chiffres clés, services, réalisations, à propos, méthode, contact).
-- **Espace admin** (`/admin/`) : connexion par mot de passe, puis :
-  - 📸 **Réalisations** : upload d'images (compressées automatiquement), titre, catégorie, description, suppression ;
-  - 💼 **Services** : ajout, modification, suppression (avec icône Font Awesome au choix).
-- Les contenus sont stockés dans **Cloudflare D1** (base de données) et les images dans **Cloudflare KV**.
+Le site est **statique** et se déploie automatiquement sur **GitHub Pages** à chaque modification. Les services et les réalisations affichés sont lus depuis de simples fichiers JSON — pas besoin de toucher au code HTML pour mettre le site à jour.
 
 ## 📁 Structure du projet
 
 ```
-├── public/               → Fichiers statiques servis par Cloudflare
-│   ├── index.html        → Page d'accueil
-│   ├── admin/index.html  → Espace administrateur
-│   ├── css/styles.css    → Styles du site
-│   ├── css/admin.css     → Styles de l'admin
-│   ├── js/main.js        → Logique du site (chargement services/portfolio, lightbox…)
-│   ├── js/admin.js       → Logique de l'admin (login, uploads, CRUD)
-│   └── images/           → Images du site (logo, hero, portfolio de secours)
-├── src/index.js          → Worker Cloudflare : API + authentification + médias
-├── migrations/0001_init.sql → Schéma de la base D1 (référence)
-├── wrangler.jsonc        → Configuration Cloudflare (bindings D1 + KV + assets)
-└── package.json
+├── .github/workflows/deploy-pages.yml → Déploiement automatique GitHub Pages
+├── public/                → Le site (c'est ce dossier qui est publié)
+│   ├── index.html         → Page d'accueil
+│   ├── css/styles.css     → Styles du site
+│   ├── js/main.js         → Logique (chargement des données, lightbox…)
+│   ├── data/services.json → ✏️ Tes services (modifiable)
+│   ├── data/projects.json → ✏️ Tes réalisations (modifiable)
+│   ├── images/            → Logo, images du site
+│   │   └── portfolio/     → 📸 Les images de tes réalisations
+│   └── admin/             → Espace admin (utilisable seulement avec l'option Cloudflare, voir plus bas)
+├── src/index.js           → (Option Cloudflare) API + authentification admin
+├── migrations/            → (Option Cloudflare) schéma de base de données
+└── wrangler.jsonc         → (Option Cloudflare) configuration
 ```
 
-## 🚀 Déploiement sur Cloudflare (à faire une seule fois)
+## 🚀 Déploiement sur GitHub Pages (une seule fois)
 
-Les ressources sont **déjà créées** sur ton compte Cloudflare :
-- Base D1 : `dvs-database` (`da979065-22bb-4cdd-b843-97c2bf6fe58b`) — tables créées et services insérés ✅
-- KV : `dvs-media` (`41340161ff1a4993839265eb07c0a8dc`) ✅
+1. Sur GitHub, ouvre le dépôt → **Settings** → **Pages**.
+2. Dans **Build and deployment** → **Source**, choisis **GitHub Actions**.
+3. Fusionne la branche de travail dans `main` (ou pousse sur `main`).
+4. Le workflow « Déployer sur GitHub Pages » se lance (onglet **Actions**) et publie le site sur :
+   `https://<ton-pseudo>.github.io/Digital-Visual-Studio/`
 
-### Étape 1 — Connecter le dépôt GitHub
+> ⚠️ GitHub Pages gratuit nécessite un **dépôt public**. Vérifie dans Settings → General → Danger Zone que le dépôt est bien « Public ».
 
-1. Va sur [dash.cloudflare.com](https://dash.cloudflare.com) → **Compute (Workers)** → **Create** (Créer).
-2. Choisis l'onglet **Workers** → **Import a repository** (Importer un dépôt Git).
-3. Connecte ton compte GitHub et sélectionne **`Digital-Visual-Studio`**.
-4. Branche de production : `main` (ou la branche de ton choix). Laisse la commande de build vide, commande de déploiement : `npx wrangler deploy`.
-5. Valide : Cloudflare construit et déploie le site. Tu obtiens une URL du type `https://digital-visual-studio.<ton-compte>.workers.dev`.
+Ensuite, **chaque commit sur `main` republie le site automatiquement** (~1 minute).
 
-Ensuite, **chaque `git push` redéploie le site automatiquement**.
+## 📸 Ajouter une réalisation (portfolio)
 
-### Étape 2 — Définir le mot de passe admin (obligatoire)
+Tout se fait depuis le site GitHub, même sur téléphone :
 
-Dans le dashboard : **Workers & Pages** → `digital-visual-studio` → **Settings** → **Variables and Secrets** → **Add** :
-- Type : **Secret**
-- Nom : `ADMIN_PASSWORD`
-- Valeur : ton mot de passe (choisis-le long et unique !)
+1. Va dans `public/images/portfolio/` → **Add file** → **Upload files** → dépose ton image (idéalement < 1 Mo : passe-la par [squoosh.app](https://squoosh.app) si elle est lourde) → **Commit changes**.
+2. Ouvre `public/data/projects.json` → clique le crayon ✏️ (« Edit ») → ajoute un bloc **en haut de la liste** :
 
-Puis clique **Deploy** pour appliquer. Sans ce secret, la connexion admin est refusée.
+```json
+{
+  "title": "Logo boutique Belle Époque",
+  "category": "Logo",
+  "description": "Identité visuelle complète",
+  "image_url": "images/portfolio/belle-epoque.png"
+}
+```
 
-### Étape 3 — Acheter et brancher ton nom de domaine 💳
+   (N'oublie pas la **virgule** entre deux blocs `{ … }`, et vérifie que `image_url` correspond exactement au nom du fichier uploadé.)
+3. **Commit changes** : la réalisation apparaît sur le site en ~1 minute.
 
-Cloudflare vend les domaines **à prix coûtant** (sans marge, ~10 $/an pour un `.com`) :
+## 💼 Ajouter ou modifier un service
 
-1. Dashboard Cloudflare → **Domain Registration** → **Register Domains**.
-2. Cherche un nom, par ex. `digitalvisualstudio.com`, `dvs-studio.com`, `dvsbymlp.com`…
-3. Paie avec ta carte : le domaine est automatiquement configuré sur ton compte.
-4. Ensuite : **Workers & Pages** → `digital-visual-studio` → **Settings** → **Domains & Routes** → **Add** → **Custom domain** → entre ton domaine (et aussi `www.` si tu veux).
-5. En quelques minutes, ton site est accessible sur ton domaine, avec HTTPS automatique.
+Même principe avec `public/data/services.json` :
 
-> 💡 Alternative moins chère la 1ʳᵉ année : Namecheap/Porkbun, mais il faudra pointer les serveurs DNS vers Cloudflare. L'achat direct chez Cloudflare est le plus simple.
+```json
+{
+  "title": "Photographie",
+  "description": "Shootings produits et portraits professionnels.",
+  "icon": "fa-solid fa-camera"
+}
+```
 
-### Étape 4 — Retirer Netlify (optionnel)
+Pour l'icône, choisis une icône **gratuite** sur [fontawesome.com](https://fontawesome.com/search?ic=free) et copie sa classe (ex. `fa-solid fa-camera`).
 
-Une fois le domaine actif sur Cloudflare, tu peux supprimer le site `dvs-by-mlp.netlify.app` depuis ton tableau de bord Netlify pour éviter le contenu dupliqué.
+## 🌍 Nom de domaine personnalisé
 
-## 🔑 Utiliser l'espace admin
+1. **Achète ton domaine** chez un registrar : Cloudflare Registrar (prix coûtant, ~10 $/an pour un `.com`), Namecheap, Porkbun ou OVH. Exemples : `dvsbymlp.com`, `digitalvisualstudio.net`.
+2. **Configure le DNS** chez ton registrar :
+   - Pour `www` : un enregistrement **CNAME** → `<ton-pseudo>.github.io`
+   - Pour le domaine racine (`tondomaine.com`) : 4 enregistrements **A** →
+     `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+     (et si ton registrar gère l'IPv6, 4 **AAAA** : `2606:50c0:8000::153` à `2606:50c0:8003::153`)
+3. Sur GitHub : **Settings** → **Pages** → **Custom domain** → entre ton domaine → **Save**, puis attends la vérification DNS et coche **Enforce HTTPS**.
+4. C'est en ligne ! Le certificat HTTPS est généré automatiquement (parfois jusqu'à 24 h de délai DNS).
 
-1. Va sur `https://ton-domaine/admin/` (lien discret « Espace admin » aussi en bas du site).
-2. Entre ton mot de passe (`ADMIN_PASSWORD`). La session dure 7 jours.
-3. Onglet **Réalisations** : choisis une image, un titre, une catégorie → **Publier**. Elle apparaît immédiatement dans le portfolio du site.
-4. Onglet **Services** : ajoute ou modifie tes prestations. Pour l'icône, copie une classe gratuite depuis [fontawesome.com](https://fontawesome.com/search?ic=free) (ex : `fa-solid fa-camera`).
+## ☁️ Option : espace admin avec Cloudflare Workers
+
+Le dépôt contient aussi une version **Cloudflare Workers** complète (dossier `src/`, `wrangler.jsonc`) qui ajoute un **véritable espace admin** sur `/admin/` : connexion par mot de passe, upload d'images et gestion des services depuis le navigateur, sans toucher à GitHub. Les ressources (base D1 `dvs-database`, KV `dvs-media`) sont déjà créées sur le compte Cloudflare. Pour l'activer un jour : importer le dépôt dans Cloudflare Workers, définir le secret `ADMIN_PASSWORD`, déployer. Le site détecte automatiquement l'environnement et bascule sur la base de données.
 
 ## 🛠 Développement local
 
 ```bash
-npm install
-echo 'ADMIN_PASSWORD=motdepasse-local' > .dev.vars
-npm run dev          # http://localhost:8787
+cd public && python3 -m http.server 8000   # http://localhost:8000
 ```
-
-`wrangler dev` simule D1 et KV en local (données locales, pas celles de production).
 
 ## 📞 Contacts du site
 
-Numéros et réseaux sociaux sont dans `public/index.html` (WhatsApp : `wa.me/237670789126`, tél : `+237 696 207 716`). Modifie-les directement dans ce fichier si besoin.
+Numéros et réseaux sociaux sont dans `public/index.html` (WhatsApp : `wa.me/237670789126`, tél : `+237 696 207 716`).
