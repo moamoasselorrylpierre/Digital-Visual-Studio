@@ -15,19 +15,22 @@
   },
 
   // Base de données D1 : services + réalisations (portfolio)
+  // Pas d'ID : wrangler crée (ou retrouve) automatiquement la base
+  // nommée "dvs-database" sur le compte au moment du déploiement,
+  // et le Worker crée lui-même ses tables au premier appel.
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "dvs-database",
-      "database_id": "da979065-22bb-4cdd-b843-97c2bf6fe58b"
+      "database_name": "dvs-database"
     }
   ],
 
   // Stockage KV : images uploadées depuis l'espace admin
+  // Pas d'ID : créé automatiquement au premier déploiement,
+  // puis réutilisé aux déploiements suivants.
   "kv_namespaces": [
     {
-      "binding": "MEDIA",
-      "id": "41340161ff1a4993839265eb07c0a8dc"
+      "binding": "MEDIA"
     }
   ],
 
