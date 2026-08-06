@@ -43,10 +43,52 @@ export default {
 };
 
 /* ============================================================
+   INITIALISATION AUTOMATIQUE DE LA BASE
+   Crée les tables au premier appel et insère les services
+   par défaut si la base est vide — aucune migration manuelle.
+============================================================ */
+let schemaReady = false;
+
+async function ensureSchema(env) {
+  if (schemaReady) return;
+  await env.DB.batch([
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS services (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT NOT NULL,
+      icon TEXT NOT NULL DEFAULT 'fa-solid fa-star',
+      sort_order INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    )`),
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS projects (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      category TEXT DEFAULT 'Création',
+      description TEXT DEFAULT '',
+      image_key TEXT NOT NULL,
+      content_type TEXT NOT NULL DEFAULT 'image/jpeg',
+      sort_order INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    )`),
+  ]);
+  const row = await env.DB.prepare('SELECT COUNT(*) AS n FROM services').first();
+  if (!row || row.n === 0) {
+    await env.DB.prepare(
+      `INSERT INTO services (title, description, icon, sort_order) VALUES
+       ('Web Design', 'Conception et développement de sites web modernes : nous optimisons et modernisons votre présence en ligne.', 'fa-solid fa-laptop-code', 1),
+       ('Design Graphique', 'Logos, illustrations, flyers, supports marketing et identité visuelle complète pour votre marque.', 'fa-solid fa-pen-nib', 2),
+       ('Marketing Digital', 'Stratégie de marque, campagnes sur les réseaux sociaux et marketing digital sur mesure.', 'fa-solid fa-bullhorn', 3)`
+    ).run();
+  }
+  schemaReady = true;
+}
+
+/* ============================================================
    ROUTAGE API
 ============================================================ */
 async function handleApi(request, env, pathname) {
   const method = request.method;
+  await ensureSchema(env);
 
   // --- Authentification -------------------------------------
   if (pathname === '/api/login' && method === 'POST') return login(request, env);
