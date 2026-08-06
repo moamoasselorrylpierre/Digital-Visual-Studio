@@ -47,10 +47,19 @@ export default {
    Crée les tables au premier appel et insère les services
    par défaut si la base est vide — aucune migration manuelle.
 ============================================================ */
-let schemaReady = false;
+let schemaPromise = null;
 
-async function ensureSchema(env) {
-  if (schemaReady) return;
+// Toutes les requêtes simultanées partagent la même initialisation :
+// impossible d'insérer les services par défaut deux fois.
+function ensureSchema(env) {
+  schemaPromise ??= initSchema(env).catch((err) => {
+    schemaPromise = null; // permet de retenter au prochain appel
+    throw err;
+  });
+  return schemaPromise;
+}
+
+async function initSchema(env) {
   await env.DB.batch([
     env.DB.prepare(`CREATE TABLE IF NOT EXISTS services (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -71,16 +80,17 @@ async function ensureSchema(env) {
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     )`),
   ]);
+  // IDs fixes + OR IGNORE : même si deux instances passent ici en même
+  // temps, les services par défaut ne peuvent être insérés qu'une fois.
   const row = await env.DB.prepare('SELECT COUNT(*) AS n FROM services').first();
   if (!row || row.n === 0) {
     await env.DB.prepare(
-      `INSERT INTO services (title, description, icon, sort_order) VALUES
-       ('Web Design', 'Conception et développement de sites web modernes : nous optimisons et modernisons votre présence en ligne.', 'fa-solid fa-laptop-code', 1),
-       ('Design Graphique', 'Logos, illustrations, flyers, supports marketing et identité visuelle complète pour votre marque.', 'fa-solid fa-pen-nib', 2),
-       ('Marketing Digital', 'Stratégie de marque, campagnes sur les réseaux sociaux et marketing digital sur mesure.', 'fa-solid fa-bullhorn', 3)`
+      `INSERT OR IGNORE INTO services (id, title, description, icon, sort_order) VALUES
+       (1, 'Web Design', 'Conception et développement de sites web modernes : nous optimisons et modernisons votre présence en ligne.', 'fa-solid fa-laptop-code', 1),
+       (2, 'Design Graphique', 'Logos, illustrations, flyers, supports marketing et identité visuelle complète pour votre marque.', 'fa-solid fa-pen-nib', 2),
+       (3, 'Marketing Digital', 'Stratégie de marque, campagnes sur les réseaux sociaux et marketing digital sur mesure.', 'fa-solid fa-bullhorn', 3)`
     ).run();
   }
-  schemaReady = true;
 }
 
 /* ============================================================
